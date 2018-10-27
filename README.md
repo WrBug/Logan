@@ -24,7 +24,7 @@ If you want to build the source, make sure your NDK version is not higher than *
 Add the following content in the project `build.gradle` file:
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.0.0'
+compile 'com.dianping.android.sdk:logan:1.1.0'
 ```
 
 ### Usage
@@ -90,7 +90,7 @@ Logan.s(date, mSendLogRunnable);
 
 One of the first parameter is date array(yyyy-MM-dd).
 
-## iOS
+## iOS & macOS
 
 ### Installation
 
@@ -105,7 +105,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 1.0.0'
+pod 'Logan', '~> 1.1.1'
 end
 ```
 
@@ -140,6 +140,22 @@ Write a log:
 ```objc
 logan(1, @"this is a test");
 ```
+## Log parsing
+### java
+Copy Logan/parser-java to your project.
+
+Parsing log data
+```java
+new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStream)
+```
+### node.js
+Please refer to Example/Logan-Server/server.js.
+
+## Demo
+
+[How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
+
+[Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
 
 # Best Practices
 
@@ -178,7 +194,7 @@ Finally, we hope to provide a more complete integrated case analysis ecosystem.
 
 | Module | Open Source | Processing | Planning |
 | :------: | :--: | :-----: | :-: |
-| iOS  |   √  |        |    |
+| iOS & macOS |   √  |        |    |
 | Android | √ |  |  |
 | Web |  | √ |  |
 | Mini Programs |  | √ |  |

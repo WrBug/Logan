@@ -24,7 +24,7 @@ Logan是美团点评集团移动端基础日志组件。名称是Log和An的组�
 在项目的`build.gradle`文件中添加：
 
 ```groovy
-compile 'com.dianping.android.sdk:logan:1.0.0'
+compile 'com.dianping.android.sdk:logan:1.1.0'
 ```
 
 ### Usage
@@ -89,7 +89,7 @@ Logan.s(date, mSendLogRunnable);
 
 其中第一个参数为日期数组（yyyy-MM-dd）。
 
-## iOS
+## iOS & macOS
 
 ### Installation
 
@@ -104,7 +104,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'Logan', '~> 1.0.0'
+pod 'Logan', '~> 1.1.1'
 end
 ```
 
@@ -139,6 +139,22 @@ loganUseASL(YES);
 logan(1, @"this is a test");
 ```
 
+## Log parsing
+### java
+将Logan/parser-java 拷贝到项目中。
+
+解析日志数据
+```java
+new LoganParser(Key16.getBytes(),Iv16.getBytes()).parse(InputStream, OutputStream)
+```
+### node.js
+请参考 Example/Logan-Server/server.js 实现。
+
+## Demo
+
+[How to use demo](https://github.com/Meituan-Dianping/Logan/wiki/How-to-use-demo)
+
+[Log protocol](https://github.com/Meituan-Dianping/Logan/wiki/Log-protocol)
 # Best Practices
 
 在Logan面世之前，日志系统是相对分散的。
@@ -176,7 +192,7 @@ Logan核心体系由四大模块构成：
 
 | Module | Open Source | Processing | Planning |
 | :------: | :--: | :-----: | :-: |
-| iOS  |   √  |        |    |
+| iOS & macOS  |   √  |        |    |
 | Android | √ |  |  |
 | Web |  | √ |  |
 | Mini Programs |  | √ |  |

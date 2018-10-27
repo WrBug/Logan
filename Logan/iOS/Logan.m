@@ -25,6 +25,12 @@
 #include <sys/mount.h>
 #include "clogan_core.h"
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#else
+#import <Cocoa/Cocoa.h>
+#endif
+
 BOOL LOGANUSEASL = NO;
 NSData *__AES_KEY;
 NSData *__AES_IV;
@@ -35,7 +41,12 @@ uint64_t __max_file;
     NSTimeInterval _lastCheckFreeSpace;
 }
 @property (nonatomic, copy) NSString *lastLogDate;
+
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_queue_t loganQueue;
+#else
+@property (nonatomic, assign) dispatch_queue_t loganQueue;
+#endif
 
 + (instancetype)logan;
 
@@ -254,9 +265,20 @@ NSString *_Nonnull loganTodaysDate(void) {
 }
 #pragma mark - notification
 - (void)addNotification {
+    // App Extension
+    if ( [[[NSBundle mainBundle] bundlePath] hasSuffix:@".appex"] ) {
+        return ;
+    }
+#if TARGET_OS_IPHONE
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate) name:UIApplicationWillTerminateNotification object:nil];
+#else
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground) name:NSApplicationWillBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:NSApplicationDidResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate) name:NSApplicationWillTerminateNotification object:nil];
+#endif
+
 }
 
 - (void)appWillResignActive {
